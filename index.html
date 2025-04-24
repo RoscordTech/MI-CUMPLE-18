@@ -198,7 +198,15 @@
 
 
         /* Estilo del formulario RSVP y botones */
-        /* #rsvpForm ya tiene animación y border/padding top */
+        /* Nota: El formulario ya no tiene action/method, se envía por JS */
+        #rsvpForm {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            animation: fade-in 2s ease-out forwards;
+            opacity: 0;
+            animation-delay: 3s;
+        }
 
         /* Estilo general para botones/enlaces con apariencia de botón */
         .button-style {
@@ -271,8 +279,18 @@
             box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
         }
 
-        /* Mensaje de Confirmación (eliminado para FormSubmit por defecto) */
-        /* #successMessage ya no se usa con la redirección de FormSubmit */
+        /* Mensaje de Confirmación (inicialmente oculto) */
+        #successMessage {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #007987; /* Cian oscuro */
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+            display: none; /* Inicialmente oculto */
+            /* La animación de aparición se activa en JS */
+        }
 
 
         /* Animation for subtle floating particles (Bubbles/Dots) */
@@ -405,6 +423,12 @@
                  animation-delay: 3.2s;
              }
 
+             #successMessage {
+                 font-size: 1.2em;
+                 margin-top: 20px;
+                 padding-top: 15px;
+             }
+
 
              /* Ajustes sutiles a la animación flotante en móviles */
              @keyframes float {
@@ -447,7 +471,7 @@
         </div>
 
 
-        <form id="rsvpForm" action="https://formsubmit.co/roscordtgn@gmail.com" method="POST" target="_blank">
+        <form id="rsvpForm">
             <label for="guestName">Tu Nombre:</label>
             <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <input type="hidden" name="_subject" value="Confirmación de asistencia - 18 Cumpleaños de Lautaro">
 
@@ -456,8 +480,13 @@
             </button>
         </form>
 
+         <div id="successMessage">
+            ¡Gracias por confirmar! Tu asistencia ha sido registrada.
+        </div>
+
+
         <div class="buttons-container">
-            <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS40IKXMDSoASAFQAw%3D%3D"
+            <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
                id="locationLink" class="button-style" target="_blank">
                 Ver Ubicación en Maps
             </a>
@@ -524,39 +553,87 @@
                     minutesElement.innerHTML = minutes + "<span>Minutos</span>";
                     secondsElement.innerHTML = seconds + "<span>Segundos</span>";
                 } else {
-                    clearInterval(countdownFunction);
+                    // Si la cuenta regresiva ha terminado
+                    clearInterval(countdownFunction); // Detiene el intervalo
                     countdownElement.innerHTML = "¡La fiesta ha comenzado!";
-                    countdownElement.style.color = "#00bcd4";
-                    countdownElement.style.fontSize = "2em";
-                    countdownElement.style.display = "block";
+                    countdownElement.style.color = "#00bcd4"; // Cian para el mensaje final
+                    countdownElement.style.fontSize = "2em"; // Tamaño un poco mayor
+                    countdownElement.style.display = "block"; // Asegurar que el mensaje final se muestre bien centrado
                 }
             } else {
-                 clearInterval(countdownFunction);
-                 console.error("Elementos del contador no encontrados en el HTML.");
+                 // En caso de que los elementos no se encuentren (situación inesperada si el HTML es correcto)
+                 clearInterval(countdownFunction); // Detiene el intervalo para evitar errores
+                 console.error("Elementos del contador no encontrados en el HTML."); // Muestra un mensaje en la consola del navegador
             }
 
 
-        }, 1000);
+        }, 1000); // Actualizar cada 1 segundo (1000 milisegundos)
 
 
-        // Script para manejar la validación básica del formulario antes del envío a FormSubmit
+        // Script para manejar el envío del formulario a FormSubmit usando Fetch (AJAX)
 
         const rsvpForm = document.getElementById('rsvpForm');
+        const guestNameInput = document.getElementById('guestName'); // Obtener el input de nombre
+        const successMessage = document.getElementById('successMessage'); // Obtener el mensaje de éxito
 
-        // No necesitamos el eventListener completo para mailto ahora, solo la validación básica
+
+        // ** IMPORTANTE: URL del Endpoint de FormSubmit para roscordtgn@gmail.com **
+        // Asegúrate de que esta URL sea la que FormSubmit te dio y que la hayas VERIFICADO por email.
+        const formSubmitUrl = 'https://formsubmit.co/roscordtgn@gmail.com';
+
+
         rsvpForm.addEventListener('submit', function(event) {
-             const guestNameInput = document.getElementById('guestName');
+             event.preventDefault(); // <--- ¡CRUCIAL! Esto detiene el envío normal del formulario y la redirección.
+
              const guestName = guestNameInput.value.trim();
 
              if (guestName === '') {
                  alert('Por favor, introduce tu nombre para confirmar.'); // Validación básica con alert
-                 event.preventDefault(); // ¡Esto detiene el envío a FormSubmit si falla la validación!
+                 return; // Detiene la función si el nombre está vacío
              }
-             // Si la validación pasa, el evento 'submit' continúa y el formulario se envía a la URL de action=""
+
+             // Recolectar datos del formulario manualmente
+             const formData = new FormData(); // Usamos FormData para enviar datos como un formulario normal
+             formData.append('name', guestName); // Añade el nombre del invitado
+             formData.append('_subject', 'Confirmación de asistencia - 18 Cumpleaños de Lautaro'); // Añade el asunto
+
+             // Aquí puedes añadir otros campos del formulario si los tuvieras, ej:
+             // formData.append('campo_extra', document.getElementById('id_del_campo_extra').value);
+
+
+             // Enviar datos usando Fetch (AJAX)
+             fetch(formSubmitUrl, {
+                 method: 'POST', // Método POST
+                 body: formData, // Los datos a enviar
+                 // FormSubmit no requiere cabeceras Content-Type específicas para FormData
+             })
+             .then(response => {
+                 if (response.ok) { // Si la respuesta de FormSubmit es exitosa (código 2xx)
+                     console.log('Confirmación enviada con éxito a FormSubmit');
+                     // Ocultar el formulario
+                     rsvpForm.style.display = 'none';
+                     // Mostrar el mensaje de éxito en la página
+                     if (successMessage) {
+                         successMessage.style.display = 'block';
+                         // Opcional: Activar animación si se muestra
+                         successMessage.style.animation = 'fade-in 1.5s ease-out forwards';
+                     }
+                     // Opcional: Limpiar el campo de input después de enviar
+                     // guestNameInput.value = '';
+
+                 } else { // Si FormSubmit responde con un error
+                     console.error('Error al enviar la confirmación a FormSubmit:', response.status, response.statusText);
+                     alert('Hubo un error al enviar tu confirmación. Por favor, inténtalo de nuevo más tarde o contacta directamente.'); // Mensaje de error al usuario
+                 }
+             })
+             .catch(error => { // Capturar errores de red (ej: sin conexión)
+                 console.error('Error de red al enviar la confirmación:', error);
+                 alert('No se pudo conectar con el servidor para enviar la confirmación. Revisa tu conexión a internet.'); // Mensaje de error de red
+             });
 
          });
 
-        // El mensaje de confirmación en página y el JS para mostrarlo se eliminan al usar FormSubmit
+        // Los botones de ubicación y calendario son enlaces estándar y no necesitan JS adicional
 
     </script>
 
