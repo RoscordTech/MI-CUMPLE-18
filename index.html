@@ -16,9 +16,9 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f0f8ff; /* Fondo muy claro, casi blanco (se verá a través de la transparencia del fondo::before) */
+            background-color: #f0f8ff; /* Fondo muy claro, casi blanco */
             color: #333;
-            overflow-x: hidden; /* Ocultar scroll horizontal que puedan causar las animaciones */
+            overflow-x: hidden; /* Ocultar scroll horizontal */
             position: relative;
             line-height: 1.6;
         }
@@ -35,8 +35,8 @@
             background: url(http://googleusercontent.com/image_generation_content/2);
             background-size: cover; /* Cubre todo el fondo */
             background-position: center; /* Centra la imagen */
-            opacity: 0.4; /* Ajusta la transparencia para que el contenido destaque */
-            z-index: -1; /* Asegura que esté detrás del contenido principal */
+            opacity: 0.4; /* Ajusta la transparencia */
+            z-index: -1; /* Detrás del contenido */
         }
 
         .invitation-container {
@@ -44,15 +44,15 @@
             background-color: rgba(255, 255, 255, 0.95); /* Blanco casi opaco */
             padding: 40px 50px; /* Padding por defecto */
             border-radius: 10px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Sombra sutil */
-            z-index: 1; /* Asegura que el contenedor esté encima del fondo */
-            width: 95%; /* Ancho fluido del 95% de la pantalla */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1; /* Encima del fondo */
+            width: 95%; /* Ancho fluido */
             max-width: 600px; /* Ancho máximo */
-            box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+            box-sizing: border-box;
             position: relative;
             opacity: 0; /* Empieza invisible para la animación de entrada */
-            transform: translateY(20px); /* Empieza ligeramente desplazado hacia abajo */
-            animation: container-entry 1.5s ease-out forwards; /* Animación de entrada del contenedor */
+            transform: translateY(20px); /* Empieza ligeramente desplazado */
+            animation: container-entry 1.5s ease-out forwards; /* Animación de entrada */
         }
 
         @keyframes container-entry {
@@ -71,7 +71,7 @@
             color: #007987; /* Cian oscuro */
             font-size: 3em;
             margin-bottom: 10px;
-            animation: text-pop-up 1.2s ease-out; /* Animación de aparición (ya existía) */
+            animation: text-pop-up 1.2s ease-out;
             transition: color 0.3s ease, text-shadow 0.3s ease; /* Transición suave para hover */
         }
          h1:hover {
@@ -80,7 +80,7 @@
          }
 
 
-        @keyframes text-pop-up { /* Se mantiene esta animación interna */
+        @keyframes text-pop-up {
             0% {
                 transform: scale(0.7);
                 opacity: 0;
@@ -99,9 +99,9 @@
             font-size: 2em;
             margin-top: 0;
             margin-bottom: 30px;
-            animation: fade-in 2s ease-out forwards; /* Animación de aparición */
-            opacity: 0; /* Empieza invisible */
-            animation-delay: 0.6s; /* Retraso */
+            animation: fade-in 2s ease-out forwards;
+            opacity: 0;
+            animation-delay: 0.6s;
              transition: color 0.3s ease, text-shadow 0.3s ease; /* Transición suave para hover */
         }
          h2:hover {
@@ -114,8 +114,8 @@
             color: #555; /* Gris medio */
             font-size: 1.15em;
             margin-bottom: 20px;
-            animation: fade-in 2s ease-out forwards; /* Animación de aparición */
-            opacity: 0; /* Empieza invisible */
+            animation: fade-in 2s ease-out forwards;
+            opacity: 0;
              transition: color 0.3s ease; /* Transición suave para hover */
         }
          p:hover {
@@ -124,13 +124,13 @@
 
         p:nth-of-type(1) {
             animation-delay: 1.2s;
-        } /* Parrafo de Fecha y Hora */
+        }
         p:nth-of-type(2) {
             animation-delay: 1.8s;
-        } /* Parrafo de Lugar */
+        }
 
 
-        @keyframes fade-in { /* Se mantiene esta animación */
+        @keyframes fade-in {
             0% {
                 opacity: 0;
                 transform: translateY(10px);
@@ -145,7 +145,7 @@
             font-size: 1.6em;
             color: #00bcd4; /* Cian */
             font-weight: bold;
-            animation: heartbeat 1.8s infinite ease-in-out; /* Animación de latido */
+            animation: heartbeat 1.8s infinite ease-in-out;
             display: inline-block;
             transition: transform 0.2s ease-in-out; /* Transición para hover */
         }
@@ -165,26 +165,26 @@
             animation-delay: 2.5s;
             border-top: 1px solid #eee;
             padding-top: 20px;
-             display: flex; /* Usar flexbox para alinear los bloques */
-             justify-content: center; /* Centrar los bloques */
-             flex-wrap: wrap; /* Permite que los bloques salten de línea en móvil */
+             display: flex;
+             justify-content: center;
+             flex-wrap: wrap;
         }
 
         #countdown div {
-            display: flex; /* Flexbox para centrar número y etiqueta dentro del bloque */
-            flex-direction: column; /* Apila número y etiqueta */
-            align-items: center; /* Centra horizontalmente el contenido */
-            margin: 0 8px; /* Espacio reducido entre bloques */
-            padding: 10px 8px; /* Relleno dentro del bloque */
-            border: 1px solid #00bcd4; /* Borde cian */
-            border-radius: 8px; /* Bordes redondeados */
-            background-color: rgba(0, 188, 212, 0.1); /* Fondo cian muy claro */
-            min-width: 60px; /* Ancho mínimo para evitar que se aplasten */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 8px;
+            padding: 10px 8px;
+            border: 1px solid #00bcd4;
+            border-radius: 8px;
+            background-color: rgba(0, 188, 212, 0.1);
+            min-width: 60px;
              transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Transición para hover */
         }
          #countdown div:hover {
-             transform: translateY(-5px); /* Ligeramente hacia arriba al pasar ratón */
-             box-shadow: 0 5px 10px rgba(0, 188, 212, 0.3); /* Sombra sutil */
+             transform: translateY(-5px);
+             box-shadow: 0 5px 10px rgba(0, 188, 212, 0.3);
          }
 
 
@@ -193,19 +193,12 @@
             font-size: 0.5em;
             color: #555;
             font-weight: normal;
-            margin-top: 3px; /* Espacio entre número y etiqueta */
+            margin-top: 3px;
         }
 
 
         /* Estilo del formulario RSVP y botones */
-        #rsvpForm {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            animation: fade-in 2s ease-out forwards;
-            opacity: 0;
-            animation-delay: 3s;
-        }
+        /* #rsvpForm ya tiene animación y border/padding top */
 
         /* Estilo general para botones/enlaces con apariencia de botón */
         .button-style {
@@ -243,10 +236,9 @@
              border-top: 1px solid #eee;
              animation: fade-in 2s ease-out forwards;
              opacity: 0;
-             animation-delay: 3.5s; /* Aparecen después del formulario */
+             animation-delay: 3.5s;
              text-align: center;
          }
-
 
         #rsvpForm label {
             display: block;
@@ -278,6 +270,9 @@
             border-color: #00bcd4;
             box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
         }
+
+        /* Mensaje de Confirmación (eliminado para FormSubmit por defecto) */
+        /* #successMessage ya no se usa con la redirección de FormSubmit */
 
 
         /* Animation for subtle floating particles (Bubbles/Dots) */
@@ -348,36 +343,36 @@
 
 
         /* === MEDIA QUERY PARA MÓVILES (Optimización) === */
-        @media (max-width: 650px) { /* Ajuste ligeramente el breakpoint */
+        @media (max-width: 650px) {
             .invitation-container {
                 padding: 30px 20px;
             }
 
             h1 {
-                font-size: 1.8em; /* Ajuste para pantallas más pequeñas */
+                font-size: 1.8em;
             }
 
             h2 {
-                font-size: 1.4em; /* Ajuste para pantallas más pequeñas */
+                font-size: 1.4em;
                  margin-bottom: 15px;
             }
 
             p {
                 font-size: 1em;
-                margin-bottom: 10px; /* Ajuste */
+                margin-bottom: 10px;
                 line-height: 1.4;
             }
 
             #countdown {
-                font-size: 1.4em; /* Ajuste para pantallas más pequeñas */
+                font-size: 1.4em;
                 margin-top: 20px;
                 padding-top: 15px;
             }
 
             #countdown div {
-                margin: 0 4px; /* Ajuste */
-                padding: 8px 4px; /* Ajuste */
-                min-width: 50px; /* Ajuste */
+                margin: 0 4px;
+                padding: 8px 4px;
+                min-width: 50px;
             }
 
             #countdown span {
@@ -385,7 +380,7 @@
             }
 
             #rsvpForm label {
-                font-size: 0.9em; /* Ajuste */
+                font-size: 0.9em;
                 margin-bottom: 5px;
             }
 
@@ -397,9 +392,9 @@
             }
 
             .button-style {
-                padding: 10px 15px; /* Ajuste */
-                font-size: 1em; /* Ajuste */
-                margin: 0 4px 10px 4px; /* Ajuste */
+                padding: 10px 15px;
+                font-size: 1em;
+                margin: 0 4px 10px 4px;
             }
 
             #rsvpForm, .buttons-container {
@@ -407,17 +402,18 @@
                  padding-top: 15px;
             }
              .buttons-container {
-                 animation-delay: 3.2s; /* Ajuste el retraso si es necesario */
+                 animation-delay: 3.2s;
              }
+
 
              /* Ajustes sutiles a la animación flotante en móviles */
              @keyframes float {
                  0% { transform: translateY(0); opacity: 0; }
                  20% { opacity: 0.6; }
                  80% { opacity: 0.6; }
-                 100% { transform: translateY(-180px); opacity: 0; } /* Menor desplazamiento vertical */
+                 100% { transform: translateY(-180px); opacity: 0; }
              }
-             .floating-element { animation: float 10s infinite ease-in-out; /* Duración ajustada */ }
+             .floating-element { animation: float 10s infinite ease-in-out; }
              .floating-element:nth-child(odd) { animation-duration: 13s; }
              .floating-element:nth-child(even) { animation-duration: 8s; }
 
@@ -451,9 +447,9 @@
         </div>
 
 
-        <form id="rsvpForm">
+        <form id="rsvpForm" action="https://formsubmit.co/el/vudepo" method="POST" target="_blank">
             <label for="guestName">Tu Nombre:</label>
-            <input type="text" id="guestName" name="guestName" placeholder="Escribe aquí tu nombre" required>
+            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <input type="hidden" name="_subject" value="Confirmación de asistencia - 18 Cumpleaños de Lautaro">
 
             <button type="submit" class="button-style">
                 Confirmar Asistencia
@@ -462,18 +458,18 @@
 
         <div class="buttons-container">
             <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
-               id="locationLink" class="button-style location-button" target="_blank">
+               id="locationLink" class="button-style" target="_blank">
                 Ver Ubicación en Maps
             </a>
 
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=18%20Cumpleaños%20de%20Lautaro&dates=20250503T210000/20250503T230000&details=Celebración%20del%2018%20cumpleaños%20de%20Lautaro.&location=El%20Mas%20de%20Geremb%C3%AD%2C%20Tarragona&sf=true&output=xml"
-               id="calendarButton" class="button-style calendar-button" target="_blank">
+               id="calendarButton" class="button-style" target="_blank">
                 Añadir al Calendario
             </a>
         </div>
 
 
-        </div>
+    </div>
 
     <div class="floating-element element1"></div>
     <div class="floating-element element2"></div>
@@ -514,7 +510,6 @@
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Mostrar el resultado en los elementos
-            // Se asegura de que los elementos existan antes de intentar actualizarlos
             const daysElement = document.getElementById("days");
             const hoursElement = document.getElementById("hours");
             const minutesElement = document.getElementById("minutes");
@@ -529,58 +524,39 @@
                     minutesElement.innerHTML = minutes + "<span>Minutos</span>";
                     secondsElement.innerHTML = seconds + "<span>Segundos</span>";
                 } else {
-                     // Si la cuenta regresiva ha terminado
-                    clearInterval(countdownFunction); // Detiene el intervalo
+                    clearInterval(countdownFunction);
                     countdownElement.innerHTML = "¡La fiesta ha comenzado!";
-                    countdownElement.style.color = "#00bcd4"; // Cian para el mensaje final
-                     countdownElement.style.fontSize = "2em"; // Tamaño un poco mayor
-                     countdownElement.style.display = "block"; // Asegurar que el mensaje final se muestre bien centrado
+                    countdownElement.style.color = "#00bcd4";
+                    countdownElement.style.fontSize = "2em";
+                    countdownElement.style.display = "block";
                 }
             } else {
-                 // En caso de que los elementos no se encuentren (situación inesperada si el HTML es correcto)
-                 clearInterval(countdownFunction); // Detiene el intervalo para evitar errores
-                 console.error("Elementos del contador no encontrados en el HTML."); // Muestra un mensaje en la consola del navegador
+                 clearInterval(countdownFunction);
+                 console.error("Elementos del contador no encontrados en el HTML.");
             }
 
 
-        }, 1000); // Actualizar cada 1 segundo (1000 milisegundos)
+        }, 1000);
 
 
-        // Script para manejar el envío del formulario y abrir el cliente de correo
-
-        // Dirección de correo a la que llegarán las confirmaciones.
-        const hostEmail = 'roscordtgn@gmail.com';
+        // Script para manejar la validación básica del formulario antes del envío a FormSubmit
 
         const rsvpForm = document.getElementById('rsvpForm');
 
+        // No necesitamos el eventListener completo para mailto ahora, solo la validación básica
         rsvpForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita el envío normal del formulario
+             const guestNameInput = document.getElementById('guestName');
+             const guestName = guestNameInput.value.trim();
 
-            const guestNameInput = document.getElementById('guestName');
-            const guestName = guestNameInput.value.trim();
+             if (guestName === '') {
+                 alert('Por favor, introduce tu nombre para confirmar.'); // Validación básica con alert
+                 event.preventDefault(); // ¡Esto detiene el envío a FormSubmit si falla la validación!
+             }
+             // Si la validación pasa, el evento 'submit' continúa y el formulario se envía a la URL de action=""
 
-            if (guestName === '') {
-                alert('Por favor, introduce tu nombre para confirmar.');
-                return;
-            }
+         });
 
-            const encodedGuestName = encodeURIComponent(guestName);
-            const subject = encodeURIComponent('Confirmación de asistencia - 18 Cumpleaños de Lautaro');
-            // Cuerpo del mensaje, incluyendo el nombre introducido
-            const body = encodeURIComponent(`Hola Lautaro,\n\nConfirmo mi asistencia al 18º cumpleaños.\nMi nombre es: ${encodedGuestName}\n\nGracias.`); // Usar encodedGuestName aquí también
-
-            const mailtoUrl = `mailto:${hostEmail}?subject=${subject}&body=${body}`;
-
-            // Abre el cliente de correo
-            window.location.href = mailtoUrl;
-
-            // Opcional: Mostrar un mensaje de agradecimiento (puede interferir con la apertura del mailto en algunos navegadores)
-            // alert('¡Gracias por confirmar! Se abrirá tu cliente de correo para enviar el email.');
-            // guestNameInput.value = ''; // Limpia el campo después de abrir el cliente de correo
-
-        });
-
-        // No se necesita JavaScript adicional para el botón de ubicación o calendario (son enlaces directos)
+        // El mensaje de confirmación en página y el JS para mostrarlo se eliminan al usar FormSubmit
 
     </script>
 
