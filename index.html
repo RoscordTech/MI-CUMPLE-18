@@ -308,18 +308,18 @@
             font-weight: bold;
             text-align: center;
             display: none; /* Inicialmente oculto */
-             flex-direction: column; /* Apilar texto y spinner */
-             align-items: center; /* Centrar horizontalmente */
+             flex-direction: column;
+             align-items: center;
         }
 
         .spinner {
-            border: 4px solid rgba(0, 188, 212, 0.1); /* Borde transparente */
-            border-top: 4px solid #00bcd4; /* Parte sólida que gira */
-            border-radius: 50%; /* Forma circular */
+            border: 4px solid rgba(0, 188, 212, 0.1);
+            border-top: 4px solid #00bcd4;
+            border-radius: 50%;
             width: 30px;
             height: 30px;
-            animation: spin 1s linear infinite; /* Animación de giro */
-            margin-top: 10px; /* Espacio entre texto "Enviando..." y spinner */
+            animation: spin 1s linear infinite;
+            margin-top: 10px;
         }
 
         @keyframes spin {
@@ -618,8 +618,8 @@
 
 
         // ** IMPORTANTE: URL del Endpoint de FormSubmit para roscordtgn@gmail.com con ?ajax=true **
-        // Esta es la URL que debes haber verificado en FormSubmit.
-        const formSubmitUrl = 'https://formsubmit.co/el/vudepo?ajax=true';
+        // Esta es la URL que debes haber verificado en FormSubmit. Usamos el endpoint /el/vudepo
+        const formSubmitUrl = 'https://formsubmit.co/el/vudepo?ajax=true'; // Usando el endpoint específico + ?ajax=true
 
 
         rsvpForm.addEventListener('submit', function(event) {
@@ -632,19 +632,20 @@
                  return; // Detiene la función si el nombre está vacío
              }
 
-             // Ocultar formulario y botones, mostrar indicador de carga
+             // --- Mostrar Indicador de Carga y Ocultar Formulario/Botones ---
+             // Ocultar formulario (con transición)
              rsvpForm.style.opacity = '0';
              rsvpForm.style.transform = 'translateY(-20px)';
              rsvpForm.style.pointerEvents = 'none'; // Deshabilitar clics
 
-
+             // Ocultar botones (con transición)
              if (buttonsContainer) {
                  buttonsContainer.style.opacity = '0';
                  buttonsContainer.style.transform = 'translateY(-20px)';
                  buttonsContainer.style.pointerEvents = 'none';
              }
 
-             // Esperar un momento antes de cambiar display para que se vea la transición de opacidad/transform
+             // Esperar a que termine la transición de ocultamiento antes de cambiar display
               setTimeout(() => {
                  rsvpForm.style.display = 'none';
                   if (buttonsContainer) {
@@ -654,88 +655,75 @@
                  // Mostrar el indicador de carga
                  if (loadingIndicator) {
                       loadingIndicator.style.display = 'flex'; /* Usar flex para centrar el contenido del loader */
-                      // Opcional: Activar animación de aparición para el loader si tuviera (ya lo tiene)
-                      // loadingIndicator.style.opacity = '0'; // Si quisieras animar su aparición
-                      // loadingIndicator.style.transform = 'translateY(20px)';
-                      // loadingIndicator.style.animation = 'fade-in 0.5s ease-out forwards';
+                      // Iniciar animación de aparición para el loader
+                      loadingIndicator.style.opacity = '0';
+                      loadingIndicator.style.transform = 'translateY(20px)';
+                      loadingIndicator.style.animation = 'fade-in 0.5s ease-out forwards';
                  }
 
              }, 500); // Tiempo igual a la duración de la transición de ocultamiento
 
 
              // Recolectar datos del formulario
-             const formData = new FormData();
+             const formData = new FormData(); // Usamos FormData
              formData.append('name', guestName); // name="name"
              formData.append('_subject', 'Confirmación de asistencia - 18 Cumpleaños de Lautaro'); // _subject
 
 
              // Enviar datos usando Fetch (AJAX) a FormSubmit
              fetch(formSubmitUrl, {
-                 method: 'POST',
-                 body: formData,
+                 method: 'POST', // Método POST
+                 body: formData, // Los datos a enviar (FormData)
                  headers: {
-                     'Accept': 'application/json' // Necesario para modo AJAX
+                     'Accept': 'application/json' // Necesario para modo AJAX con Fetch en FormSubmit
                  }
              })
              .then(response => {
                  // Ocultar el indicador de carga independientemente del resultado
                  if (loadingIndicator) {
-                     loadingIndicator.style.display = 'none';
+                      loadingIndicator.style.animation = 'none'; // Detener animación de aparición si estaba
+                      loadingIndicator.style.display = 'none';
                  }
 
-                 if (response.ok) {
+                 if (response.ok) { // Si la respuesta de FormSubmit es exitosa (status 2xx)
                      console.log('Confirmación enviada con éxito a FormSubmit');
-                     // Mostrar el mensaje de éxito
+                     // Mostrar el mensaje de éxito en la página
                      if (successMessage) {
                          successMessage.style.display = 'block';
                          successMessage.style.opacity = '0';
                          successMessage.style.transform = 'translateY(20px)';
-                         successMessage.style.animation = 'fade-in 1.5s ease-out forwards';
+                         successMessage.style.animation = 'fade-in 1.5s ease-out forwards'; // Aplicar animación
                      }
 
                  } else {
+                     // Si FormSubmit responde con un error (status 4xx o 5xx)
                      console.error('Error al enviar la confirmación a FormSubmit. Status:', response.status, response.statusText);
-                     // Intentar leer mensaje de error de FormSubmit
+                     // Intentar leer mensaje de error de FormSubmit si es JSON
                      response.json().then(data => {
                           console.error('Mensaje de error de FormSubmit:', data);
                           alert('Hubo un error al enviar tu confirmación: ' + (data.message || response.statusText) + '. Por favor, inténtalo de nuevo más tarde o contacta directamente.');
                      }).catch(() => {
+                         // Si no se puede leer JSON o no hay mensaje, usar el status text
                          alert('Hubo un error desconocido al enviar tu confirmación (Status: ' + response.status + '). Por favor, inténtalo de nuevo más tarde o contacta directamente.');
                      });
 
                      // Opcional: Volver a mostrar el formulario y botones si hay un error no crítico
-                     // rsvpForm.style.display = 'block';
-                     // rsvpForm.style.opacity = '1';
-                     // rsvpForm.style.transform = 'translateY(0)';
-                     // rsvpForm.style.pointerEvents = 'auto';
-                     // if (buttonsContainer) {
-                     //      buttonsContainer.style.display = 'block';
-                     //      buttonsContainer.style.opacity = '1';
-                     //      buttonsContainer.style.transform = 'translateY(0)';
-                     //      buttonsContainer.style.pointerEvents = 'auto';
-                     // }
+                     // (Tendrías que invertir las líneas de ocultamiento/display/opacity/transform)
+                     // rsvpForm.style.display = 'block'; // etc.
 
                  }
              })
-             .catch(error => { // Capturar errores de red
+             .catch(error => { // Capturar errores de red (ej: sin conexión, CORS bloqueado antes de respuesta OK)
                  console.error('Error de red al enviar la confirmación:', error);
-                 // Ocultar el indicador de carga en caso de error de red también
+                 // Ocultar el indicador de carga en caso de error de red
                  if (loadingIndicator) {
+                     loadingIndicator.style.animation = 'none'; // Detener animación de aparición si estaba
                      loadingIndicator.style.display = 'none';
                  }
                  alert('No se pudo conectar con el servidor para enviar la confirmación. Revisa tu conexión a internet.');
 
                  // Opcional: Volver a mostrar formulario si hay error de red
-                 // rsvpForm.style.display = 'block';
-                 // rsvpForm.style.opacity = '1';
-                 // rsvpForm.style.transform = 'translateY(0)';
-                 // rsvpForm.style.pointerEvents = 'auto';
-                 // if (buttonsContainer) {
-                 //      buttonsContainer.style.display = 'block';
-                 //      buttonsContainer.style.opacity = '1';
-                 //      buttonsContainer.style.transform = 'translateY(0)';
-                 //      buttonsContainer.style.pointerEvents = 'auto';
-                 // }
+                 // rsvpForm.style.display = 'block'; // etc.
              });
 
          });
