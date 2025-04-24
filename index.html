@@ -198,7 +198,6 @@
 
 
         /* Estilo del formulario RSVP y botones */
-        /* Nota: El formulario ya no tiene action/method, se envía por JS */
         #rsvpForm {
             margin-top: 30px;
             padding-top: 20px;
@@ -279,18 +278,8 @@
             box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
         }
 
-        /* Mensaje de Confirmación (inicialmente oculto en CSS) */
-        #successMessage {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #007987; /* Cian oscuro */
-            font-size: 1.4em;
-            font-weight: bold;
-            text-align: center;
-            display: none; /* Inicialmente oculto */
-            /* La animación de aparición se activa en JS */
-        }
+        /* Mensaje de Confirmación (eliminado para FormSubmit por defecto) */
+        /* #successMessage ya no se usa con la redirección de FormSubmit */
 
 
         /* Animation for subtle floating particles (Bubbles/Dots) */
@@ -423,12 +412,6 @@
                  animation-delay: 3.2s;
              }
 
-             #successMessage {
-                 font-size: 1.2em;
-                 margin-top: 20px;
-                 padding-top: 15px;
-             }
-
 
              /* Ajustes sutiles a la animación flotante en móviles */
              @keyframes float {
@@ -471,17 +454,14 @@
         </div>
 
 
-        <form id="rsvpForm">
+        <form id="rsvpForm" action="https://formsubmit.co/el/vudepo" method="POST" target="_blank">
             <label for="guestName">Tu Nombre:</label>
-            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <button type="submit" class="button-style">
+            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <input type="hidden" name="_subject" value="Confirmación de asistencia - 18 Cumpleaños de Lautaro">
+
+            <button type="submit" class="button-style">
                 Confirmar Asistencia
             </button>
         </form>
-
-         <div id="successMessage">
-            ¡Gracias por confirmar! Tu asistencia ha sido registrada.
-        </div>
-
 
         <div class="buttons-container">
             <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
@@ -568,88 +548,24 @@
         }, 1000); // Actualizar cada 1 segundo (1000 milisegundos)
 
 
-        // Script para manejar el envío del formulario a FormSubmit usando Fetch (AJAX)
+        // Script para manejar la validación básica del formulario antes del envío por POST tradicional
 
         const rsvpForm = document.getElementById('rsvpForm');
-        const guestNameInput = document.getElementById('guestName'); // Obtener el input de nombre
-        const successMessage = document.getElementById('successMessage'); // Obtener el mensaje de éxito
 
-        // ** IMPORTANTE: URL del Endpoint de FormSubmit para roscordtgn@gmail.com con ?ajax=true **
-        // Asegúrate de que esta URL sea la correcta y que la hayas VERIFICADO por email en FormSubmit.
-        const formSubmitUrl = 'https://formsubmit.co/el/vudepo?ajax=true';
-
-
+        // Este eventListener solo hace validación básica ANTES de que el formulario se envíe por su action=""
         rsvpForm.addEventListener('submit', function(event) {
-             event.preventDefault(); // <--- ¡CRUCIAL! Esto detiene el envío normal del formulario y la redirección.
-
+             const guestNameInput = document.getElementById('guestName');
              const guestName = guestNameInput.value.trim();
 
              if (guestName === '') {
                  alert('Por favor, introduce tu nombre para confirmar.'); // Validación básica con alert
-                 return; // Detiene la función si el nombre está vacío
+                 event.preventDefault(); // <-- Detiene el envío si la validación falla
              }
-
-             // Mostrar un indicador de envío (Opcional, no implementado aquí)
-             // Por ejemplo: cambiar el texto del botón a "Enviando..."
-
-             // Recolectar datos del formulario manualmente
-             const formData = new FormData(); // Usamos FormData para enviar datos como un formulario normal
-             formData.append('name', guestName); // Añade el nombre del invitado (usando name="name")
-             formData.append('_subject', 'Confirmación de asistencia - 18 Cumpleaños de Lautaro'); // Añade el asunto
-
-             // Si tuvieras otros campos en el formulario con sus respectivos 'name', los añadirías aquí:
-             // const otroCampo = document.getElementById('id_del_otro_campo');
-             // if (otroCampo) { formData.append(otroCampo.name, otroCampo.value); }
-
-
-             // Enviar datos usando Fetch (AJAX) a FormSubmit
-             fetch(formSubmitUrl, {
-                 method: 'POST', // Método POST
-                 body: formData, // Los datos a enviar
-                 // FormSubmit no requiere cabeceras Content-Type específicas para FormData en modo AJAX
-                 headers: {
-                     'Accept': 'application/json' // Añadir esta cabecera ayuda a FormSubmit a reconocer la petición AJAX
-                 }
-             })
-             .then(response => {
-                 // FormSubmit en modo AJAX responde con JSON. Verificamos si la respuesta fue OK (status 2xx).
-                 // Nota: A veces FormSubmit puede responder con OK (200) incluso si hay un problema de configuración
-                 // pero el mensaje en el JSON dará detalles. Para simplicidad, verificamos solo el status OK.
-                 if (response.ok) {
-                     console.log('Confirmación enviada con éxito a FormSubmit');
-                     // Ocultar el formulario
-                     rsvpForm.style.display = 'none';
-                     // Mostrar el mensaje de éxito en la página
-                     if (successMessage) {
-                         successMessage.style.display = 'block';
-                         // Iniciar la animación de aparición del mensaje
-                         successMessage.style.animation = 'fade-in 1.5s ease-out forwards';
-                     }
-
-                     // Opcional: Limpiar el campo de input (aunque está oculto)
-                     // guestNameInput.value = '';
-
-                 } else {
-                     // Si FormSubmit responde con un error (status 4xx o 5xx)
-                     console.error('Error al enviar la confirmación a FormSubmit. Status:', response.status, response.statusText);
-                     // Intentar leer un posible mensaje de error del cuerpo de la respuesta si es JSON
-                     response.json().then(data => {
-                          console.error('Mensaje de error de FormSubmit:', data);
-                          alert('Hubo un error al enviar tu confirmación: ' + (data.message || response.statusText) + '. Por favor, inténtalo de nuevo más tarde o contacta directamente.');
-                     }).catch(() => {
-                         // Si no se puede leer JSON o no hay mensaje, usar el status text
-                         alert('Hubo un error desconocido al enviar tu confirmación (Status: ' + response.status + '). Por favor, inténtalo de nuevo más tarde o contacta directamente.');
-                     });
-                 }
-             })
-             .catch(error => { // Capturar errores de red (ej: sin conexión)
-                 console.error('Error de red al enviar la confirmación:', error);
-                 alert('No se pudo conectar con el servidor para enviar la confirmación. Revisa tu conexión a internet.'); // Mensaje de error de red al usuario
-             });
+             // Si la validación pasa, el evento 'submit' continúa y el formulario se envía a la URL de action="" (a FormSubmit)
 
          });
 
-        // Los botones de ubicación y calendario son enlaces estándar y no necesitan JS adicional
+        // El mensaje de confirmación en página y el JS para mostrarlo se eliminan en esta versión
 
     </script>
 
