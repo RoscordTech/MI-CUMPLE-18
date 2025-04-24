@@ -279,7 +279,7 @@
             box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
         }
 
-        /* Mensaje de Confirmación (inicialmente oculto) */
+        /* Mensaje de Confirmación (inicialmente oculto en CSS) */
         #successMessage {
             margin-top: 30px;
             padding-top: 20px;
@@ -473,9 +473,7 @@
 
         <form id="rsvpForm">
             <label for="guestName">Tu Nombre:</label>
-            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <input type="hidden" name="_subject" value="Confirmación de asistencia - 18 Cumpleaños de Lautaro">
-
-            <button type="submit" class="button-style">
+            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <button type="submit" class="button-style">
                 Confirmar Asistencia
             </button>
         </form>
@@ -576,10 +574,9 @@
         const guestNameInput = document.getElementById('guestName'); // Obtener el input de nombre
         const successMessage = document.getElementById('successMessage'); // Obtener el mensaje de éxito
 
-
-        // ** IMPORTANTE: URL del Endpoint de FormSubmit para roscordtgn@gmail.com **
-        // Asegúrate de que esta URL sea la que FormSubmit te dio y que la hayas VERIFICADO por email.
-        const formSubmitUrl = 'https://formsubmit.co/roscordtgn@gmail.com';
+        // ** IMPORTANTE: URL del Endpoint de FormSubmit para roscordtgn@gmail.com con ?ajax=true **
+        // Asegúrate de que esta URL sea la correcta y que la hayas VERIFICADO por email en FormSubmit.
+        const formSubmitUrl = 'https://formsubmit.co/el/vudepo?ajax=true';
 
 
         rsvpForm.addEventListener('submit', function(event) {
@@ -592,43 +589,62 @@
                  return; // Detiene la función si el nombre está vacío
              }
 
+             // Mostrar un indicador de envío (Opcional, no implementado aquí)
+             // Por ejemplo: cambiar el texto del botón a "Enviando..."
+
              // Recolectar datos del formulario manualmente
              const formData = new FormData(); // Usamos FormData para enviar datos como un formulario normal
-             formData.append('name', guestName); // Añade el nombre del invitado
+             formData.append('name', guestName); // Añade el nombre del invitado (usando name="name")
              formData.append('_subject', 'Confirmación de asistencia - 18 Cumpleaños de Lautaro'); // Añade el asunto
 
-             // Aquí puedes añadir otros campos del formulario si los tuvieras, ej:
-             // formData.append('campo_extra', document.getElementById('id_del_campo_extra').value);
+             // Si tuvieras otros campos en el formulario con sus respectivos 'name', los añadirías aquí:
+             // const otroCampo = document.getElementById('id_del_otro_campo');
+             // if (otroCampo) { formData.append(otroCampo.name, otroCampo.value); }
 
 
-             // Enviar datos usando Fetch (AJAX)
+             // Enviar datos usando Fetch (AJAX) a FormSubmit
              fetch(formSubmitUrl, {
                  method: 'POST', // Método POST
                  body: formData, // Los datos a enviar
-                 // FormSubmit no requiere cabeceras Content-Type específicas para FormData
+                 // FormSubmit no requiere cabeceras Content-Type específicas para FormData en modo AJAX
+                 headers: {
+                     'Accept': 'application/json' // Añadir esta cabecera ayuda a FormSubmit a reconocer la petición AJAX
+                 }
              })
              .then(response => {
-                 if (response.ok) { // Si la respuesta de FormSubmit es exitosa (código 2xx)
+                 // FormSubmit en modo AJAX responde con JSON. Verificamos si la respuesta fue OK (status 2xx).
+                 // Nota: A veces FormSubmit puede responder con OK (200) incluso si hay un problema de configuración
+                 // pero el mensaje en el JSON dará detalles. Para simplicidad, verificamos solo el status OK.
+                 if (response.ok) {
                      console.log('Confirmación enviada con éxito a FormSubmit');
                      // Ocultar el formulario
                      rsvpForm.style.display = 'none';
                      // Mostrar el mensaje de éxito en la página
                      if (successMessage) {
                          successMessage.style.display = 'block';
-                         // Opcional: Activar animación si se muestra
+                         // Iniciar la animación de aparición del mensaje
                          successMessage.style.animation = 'fade-in 1.5s ease-out forwards';
                      }
-                     // Opcional: Limpiar el campo de input después de enviar
+
+                     // Opcional: Limpiar el campo de input (aunque está oculto)
                      // guestNameInput.value = '';
 
-                 } else { // Si FormSubmit responde con un error
-                     console.error('Error al enviar la confirmación a FormSubmit:', response.status, response.statusText);
-                     alert('Hubo un error al enviar tu confirmación. Por favor, inténtalo de nuevo más tarde o contacta directamente.'); // Mensaje de error al usuario
+                 } else {
+                     // Si FormSubmit responde con un error (status 4xx o 5xx)
+                     console.error('Error al enviar la confirmación a FormSubmit. Status:', response.status, response.statusText);
+                     // Intentar leer un posible mensaje de error del cuerpo de la respuesta si es JSON
+                     response.json().then(data => {
+                          console.error('Mensaje de error de FormSubmit:', data);
+                          alert('Hubo un error al enviar tu confirmación: ' + (data.message || response.statusText) + '. Por favor, inténtalo de nuevo más tarde o contacta directamente.');
+                     }).catch(() => {
+                         // Si no se puede leer JSON o no hay mensaje, usar el status text
+                         alert('Hubo un error desconocido al enviar tu confirmación (Status: ' + response.status + '). Por favor, inténtalo de nuevo más tarde o contacta directamente.');
+                     });
                  }
              })
              .catch(error => { // Capturar errores de red (ej: sin conexión)
                  console.error('Error de red al enviar la confirmación:', error);
-                 alert('No se pudo conectar con el servidor para enviar la confirmación. Revisa tu conexión a internet.'); // Mensaje de error de red
+                 alert('No se pudo conectar con el servidor para enviar la confirmación. Revisa tu conexión a internet.'); // Mensaje de error de red al usuario
              });
 
          });
