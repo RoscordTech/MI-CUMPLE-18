@@ -273,11 +273,6 @@
             box-sizing: border-box;
         }
 
-        #rsvpForm input[type="text"]::placeholder {
-            color: #888;
-            opacity: 1;
-        }
-
         #rsvpForm input[type="text"]:focus {
             outline: none;
             border-color: #00bcd4;
@@ -617,9 +612,9 @@
         const buttonsContainer = document.querySelector('.buttons-container'); // Obtener el contenedor de botones
 
 
-        // ** IMPORTANTE: URL del Endpoint de FormSubmit para roscordtgn@gmail.com con ?ajax=true **
-        // Esta es la URL que debes haber verificado en FormSubmit. Usamos el endpoint /el/vudepo
-        const formSubmitUrl = 'https://formsubmit.co/el/vudepo?ajax=true'; // Usando el endpoint específico + ?ajax=true
+        // ** IMPORTANTE: URL de FormSubmit con email directo + ?ajax=true **
+        // Esta es la URL que debes haber verificado en FormSubmit (el PRIMER envío a roscordtgn@gmail.com te enviará el email de verificación).
+        const formSubmitUrl = 'https://formsubmit.co/roscordtgn@gmail.com?ajax=true'; // Usando el email directo + ?ajax=true
 
 
         rsvpForm.addEventListener('submit', function(event) {
