@@ -16,14 +16,14 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f0f8ff; /* Fondo muy claro, casi blanco */
+            background-color: #f0f8ff; /* Fondo muy claro, casi blanco (se verá a través de la transparencia del fondo::before) */
             color: #333;
             overflow-x: hidden; /* Ocultar scroll horizontal que puedan causar las animaciones */
             position: relative;
             line-height: 1.6;
         }
 
-        /* Fondo a rayas */
+        /* Fondo abstracto con remolinos */
         body::before {
             content: "";
             position: absolute;
@@ -31,16 +31,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Rayas más claras para encajar con blanco/cian */
-            background: repeating-linear-gradient(
-                45deg,
-                #e0f2f7, /* Cian muy claro */
-                #e0f2f7 15px,
-                #f0f8ff 15px, /* Blanco azulado muy claro */
-                #f0f8ff 30px
-            );
-            opacity: 0.5; /* Ajusta la transparencia si es necesario */
-            z-index: -1; /* Asegura que esté detrás del contenido */
+            /* Enlace de la imagen abstracta generada anteriormente */
+            background: url(http://googleusercontent.com/image_generation_content/2);
+            background-size: cover; /* Cubre todo el fondo */
+            background-position: center; /* Centra la imagen */
+            opacity: 0.4; /* Ajusta la transparencia para que el contenido destaque */
+            z-index: -1; /* Asegura que esté detrás del contenido principal */
         }
 
         .invitation-container {
@@ -48,22 +44,43 @@
             background-color: rgba(255, 255, 255, 0.95); /* Blanco casi opaco */
             padding: 40px 50px; /* Padding por defecto */
             border-radius: 10px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            z-index: 1; /* Asegura que el contenido esté encima del fondo */
-            width: 95%; /* Ancho fluido */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Sombra sutil */
+            z-index: 1; /* Asegura que el contenedor esté encima del fondo */
+            width: 95%; /* Ancho fluido del 95% de la pantalla */
             max-width: 600px; /* Ancho máximo */
-            box-sizing: border-box;
+            box-sizing: border-box; /* Incluye padding y borde en el ancho total */
             position: relative;
+            opacity: 0; /* Empieza invisible para la animación de entrada */
+            transform: translateY(20px); /* Empieza ligeramente desplazado hacia abajo */
+            animation: container-entry 1.5s ease-out forwards; /* Animación de entrada del contenedor */
         }
+
+        @keyframes container-entry {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
 
         h1 {
             color: #007987; /* Cian oscuro */
             font-size: 3em;
             margin-bottom: 10px;
-            animation: text-pop-up 1.2s ease-out;
+            animation: text-pop-up 1.2s ease-out; /* Animación de aparición (ya existía) */
+            transition: color 0.3s ease, text-shadow 0.3s ease; /* Transición suave para hover */
         }
+         h1:hover {
+             color: #00bcd4; /* Cian al pasar ratón */
+             text-shadow: 0 0 8px rgba(0, 188, 212, 0.5); /* Sombra sutil */
+         }
 
-        @keyframes text-pop-up {
+
+        @keyframes text-pop-up { /* Se mantiene esta animación interna */
             0% {
                 transform: scale(0.7);
                 opacity: 0;
@@ -82,28 +99,38 @@
             font-size: 2em;
             margin-top: 0;
             margin-bottom: 30px;
-            animation: fade-in 2s ease-out forwards;
-            opacity: 0;
-            animation-delay: 0.6s;
+            animation: fade-in 2s ease-out forwards; /* Animación de aparición */
+            opacity: 0; /* Empieza invisible */
+            animation-delay: 0.6s; /* Retraso */
+             transition: color 0.3s ease, text-shadow 0.3s ease; /* Transición suave para hover */
         }
+         h2:hover {
+             color: #007987; /* Cian oscuro al pasar ratón */
+             text-shadow: 0 0 6px rgba(0, 121, 135, 0.4); /* Sombra sutil */
+         }
+
 
         p {
             color: #555; /* Gris medio */
             font-size: 1.15em;
             margin-bottom: 20px;
-            animation: fade-in 2s ease-out forwards;
-            opacity: 0;
+            animation: fade-in 2s ease-out forwards; /* Animación de aparición */
+            opacity: 0; /* Empieza invisible */
+             transition: color 0.3s ease; /* Transición suave para hover */
         }
+         p:hover {
+             color: #333; /* Gris oscuro al pasar ratón */
+         }
 
         p:nth-of-type(1) {
             animation-delay: 1.2s;
-        } /* Fecha y Hora */
+        } /* Parrafo de Fecha y Hora */
         p:nth-of-type(2) {
             animation-delay: 1.8s;
-        } /* Lugar */
+        } /* Parrafo de Lugar */
 
 
-        @keyframes fade-in {
+        @keyframes fade-in { /* Se mantiene esta animación */
             0% {
                 opacity: 0;
                 transform: translateY(10px);
@@ -118,21 +145,14 @@
             font-size: 1.6em;
             color: #00bcd4; /* Cian */
             font-weight: bold;
-            animation: heartbeat 1.8s infinite ease-in-out;
+            animation: heartbeat 1.8s infinite ease-in-out; /* Animación de latido */
             display: inline-block;
+            transition: transform 0.2s ease-in-out; /* Transición para hover */
         }
+         .eighteen:hover {
+             transform: scale(1.1); /* Ligeramente más grande al pasar ratón */
+         }
 
-        @keyframes heartbeat {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
 
         /* Contador de Cuenta Regresiva */
         #countdown {
@@ -140,23 +160,40 @@
             font-size: 1.8em;
             color: #007987; /* Cian oscuro */
             font-weight: bold;
-            animation: fade-in 2s ease-out forwards; /* Animación de aparición */
-            opacity: 0; /* Empieza invisible */
-            animation-delay: 2.5s; /* Retraso */
-             border-top: 1px solid #eee; /* Línea separadora clara */
-             padding-top: 20px;
+            animation: fade-in 2s ease-out forwards;
+            opacity: 0;
+            animation-delay: 2.5s;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+             display: flex; /* Usar flexbox para alinear los bloques */
+             justify-content: center; /* Centrar los bloques */
+             flex-wrap: wrap; /* Permite que los bloques salten de línea en móvil */
         }
 
         #countdown div {
-            display: inline-block;
-            margin: 0 10px;
+            display: flex; /* Flexbox para centrar número y etiqueta dentro del bloque */
+            flex-direction: column; /* Apila número y etiqueta */
+            align-items: center; /* Centra horizontalmente el contenido */
+            margin: 0 8px; /* Espacio reducido entre bloques */
+            padding: 10px 8px; /* Relleno dentro del bloque */
+            border: 1px solid #00bcd4; /* Borde cian */
+            border-radius: 8px; /* Bordes redondeados */
+            background-color: rgba(0, 188, 212, 0.1); /* Fondo cian muy claro */
+            min-width: 60px; /* Ancho mínimo para evitar que se aplasten */
+             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Transición para hover */
         }
+         #countdown div:hover {
+             transform: translateY(-5px); /* Ligeramente hacia arriba al pasar ratón */
+             box-shadow: 0 5px 10px rgba(0, 188, 212, 0.3); /* Sombra sutil */
+         }
+
 
         #countdown span {
             display: block;
             font-size: 0.5em;
             color: #555;
             font-weight: normal;
+            margin-top: 3px; /* Espacio entre número y etiqueta */
         }
 
 
@@ -167,15 +204,49 @@
             border-top: 1px solid #eee;
             animation: fade-in 2s ease-out forwards;
             opacity: 0;
-            animation-delay: 3s; /* Aparece después del contador */
+            animation-delay: 3s;
         }
 
-        .location-button {
-            animation: fade-in 2s ease-out forwards;
-            opacity: 0;
-            animation-delay: 3.5s; /* Aparece un poco después del formulario */
-            margin-top: 15px;
+        /* Estilo general para botones/enlaces con apariencia de botón */
+        .button-style {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #0097a7;
+            color: #ffffff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            white-space: nowrap;
+            margin: 0 5px 15px 5px; /* Margen entre botones y abajo */
         }
+
+        .button-style:hover {
+            background-color: #00bcd4;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-style:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilos específicos para posicionar los botones */
+         .buttons-container {
+             margin-top: 30px;
+             padding-top: 20px;
+             border-top: 1px solid #eee;
+             animation: fade-in 2s ease-out forwards;
+             opacity: 0;
+             animation-delay: 3.5s; /* Aparecen después del formulario */
+             text-align: center;
+         }
+
 
         #rsvpForm label {
             display: block;
@@ -208,53 +279,22 @@
             box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
         }
 
-        .button-style {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: #0097a7;
-            color: #ffffff;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .button-style:hover {
-            background-color: #00bcd4;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .button-style:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        #rsvpForm button {
-            margin-top: 0;
-        }
-
 
         /* Animation for subtle floating particles (Bubbles/Dots) */
         .floating-element {
             position: absolute;
-            width: 6px; /* Un poco más grandes */
+            width: 6px;
             height: 6px;
-            background-color: rgba(0, 188, 212, 0.5); /* Cian semi-transparente */
+            background-color: rgba(0, 188, 212, 0.5);
             border-radius: 50%;
-            animation: float 15s infinite ease-in-out; /* Animación más suave y larga */
+            animation: float 15s infinite ease-in-out;
             opacity: 0;
             z-index: 0;
-            box-shadow: 0 0 6px rgba(0, 188, 212, 0.4); /* Brillo cian sutil */
+            box-shadow: 0 0 6px rgba(0, 188, 212, 0.4);
         }
 
         .floating-element:nth-child(odd) {
-            background-color: rgba(255, 255, 255, 0.8); /* Blanco semi-transparente */
+            background-color: rgba(255, 255, 255, 0.8);
             width: 8px;
             height: 8px;
             animation-duration: 18s;
@@ -279,7 +319,7 @@
                 opacity: 0.7;
             }
             100% {
-                transform: translateY(-300px); /* Mayor desplazamiento vertical */
+                transform: translateY(-300px);
                 opacity: 0;
             }
         }
@@ -308,43 +348,44 @@
 
 
         /* === MEDIA QUERY PARA MÓVILES (Optimización) === */
-        @media (max-width: 600px) {
+        @media (max-width: 650px) { /* Ajuste ligeramente el breakpoint */
             .invitation-container {
                 padding: 30px 20px;
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 1.8em; /* Ajuste para pantallas más pequeñas */
             }
 
             h2 {
-                font-size: 1.6em;
-                margin-bottom: 20px;
+                font-size: 1.4em; /* Ajuste para pantallas más pequeñas */
+                 margin-bottom: 15px;
             }
 
             p {
                 font-size: 1em;
-                margin-bottom: 15px;
-                line-height: 1.5;
+                margin-bottom: 10px; /* Ajuste */
+                line-height: 1.4;
             }
 
             #countdown {
-                font-size: 1.5em;
+                font-size: 1.4em; /* Ajuste para pantallas más pequeñas */
                 margin-top: 20px;
-                padding-top: 15px; /* Ajuste padding top en móvil */
+                padding-top: 15px;
             }
 
             #countdown div {
-                margin: 0 5px;
+                margin: 0 4px; /* Ajuste */
+                padding: 8px 4px; /* Ajuste */
+                min-width: 50px; /* Ajuste */
             }
 
             #countdown span {
                 font-size: 0.4em;
             }
 
-
             #rsvpForm label {
-                font-size: 1em;
+                font-size: 0.9em; /* Ajuste */
                 margin-bottom: 5px;
             }
 
@@ -356,29 +397,29 @@
             }
 
             .button-style {
-                padding: 12px 20px;
-                font-size: 1.1em;
+                padding: 10px 15px; /* Ajuste */
+                font-size: 1em; /* Ajuste */
+                margin: 0 4px 10px 4px; /* Ajuste */
             }
 
-            #rsvpForm, .location-button {
+            #rsvpForm, .buttons-container {
                  margin-top: 20px;
                  padding-top: 15px;
             }
-
-            .location-button {
-                 margin-top: 10px;
-            }
+             .buttons-container {
+                 animation-delay: 3.2s; /* Ajuste el retraso si es necesario */
+             }
 
              /* Ajustes sutiles a la animación flotante en móviles */
              @keyframes float {
                  0% { transform: translateY(0); opacity: 0; }
                  20% { opacity: 0.6; }
                  80% { opacity: 0.6; }
-                 100% { transform: translateY(-200px); opacity: 0; }
+                 100% { transform: translateY(-180px); opacity: 0; } /* Menor desplazamiento vertical */
              }
-             .floating-element { animation: float 12s infinite ease-in-out; }
-             .floating-element:nth-child(odd) { animation-duration: 15s; }
-             .floating-element:nth-child(even) { animation-duration: 10s; }
+             .floating-element { animation: float 10s infinite ease-in-out; /* Duración ajustada */ }
+             .floating-element:nth-child(odd) { animation-duration: 13s; }
+             .floating-element:nth-child(even) { animation-duration: 8s; }
 
         }
 
@@ -419,10 +460,18 @@
             </button>
         </form>
 
-        <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
-           id="locationLink" class="button-style location-button" target="_blank">
-            Ver Ubicación en Maps
-        </a>
+        <div class="buttons-container">
+            <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
+               id="locationLink" class="button-style location-button" target="_blank">
+                Ver Ubicación en Maps
+            </a>
+
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=18%20Cumpleaños%20de%20Lautaro&dates=20250503T210000/20250503T230000&details=Celebración%20del%2018%20cumpleaños%20de%20Lautaro.&location=El%20Mas%20de%20Geremb%C3%AD%2C%20Tarragona&sf=true&output=xml"
+               id="calendarButton" class="button-style calendar-button" target="_blank">
+                Añadir al Calendario
+            </a>
+        </div>
+
 
         </div>
 
@@ -481,19 +530,20 @@
                     secondsElement.innerHTML = seconds + "<span>Segundos</span>";
                 } else {
                      // Si la cuenta regresiva ha terminado
-                    clearInterval(countdownFunction);
+                    clearInterval(countdownFunction); // Detiene el intervalo
                     countdownElement.innerHTML = "¡La fiesta ha comenzado!";
                     countdownElement.style.color = "#00bcd4"; // Cian para el mensaje final
                      countdownElement.style.fontSize = "2em"; // Tamaño un poco mayor
+                     countdownElement.style.display = "block"; // Asegurar que el mensaje final se muestre bien centrado
                 }
             } else {
-                 // Opcional: Limpiar el intervalo si los elementos no se encuentran
-                 clearInterval(countdownFunction);
-                 console.error("Elementos del contador no encontrados en el HTML.");
+                 // En caso de que los elementos no se encuentren (situación inesperada si el HTML es correcto)
+                 clearInterval(countdownFunction); // Detiene el intervalo para evitar errores
+                 console.error("Elementos del contador no encontrados en el HTML."); // Muestra un mensaje en la consola del navegador
             }
 
 
-        }, 1000); // Actualizar cada 1 segundo
+        }, 1000); // Actualizar cada 1 segundo (1000 milisegundos)
 
 
         // Script para manejar el envío del formulario y abrir el cliente de correo
@@ -526,10 +576,11 @@
 
             // Opcional: Mostrar un mensaje de agradecimiento (puede interferir con la apertura del mailto en algunos navegadores)
             // alert('¡Gracias por confirmar! Se abrirá tu cliente de correo para enviar el email.');
-            // guestNameInput.value = '';
+            // guestNameInput.value = ''; // Limpia el campo después de abrir el cliente de correo
+
         });
 
-        // No se necesita JavaScript adicional para el botón de ubicación si solo es un enlace <a>
+        // No se necesita JavaScript adicional para el botón de ubicación o calendario (son enlaces directos)
 
     </script>
 
