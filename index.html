@@ -24,13 +24,13 @@
         .invitation-container {
             text-align: center;
             background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente oscuro un poco más sólido */
-            padding: 40px 50px;
+            padding: 40px 50px; /* Padding por defecto (para pantallas más grandes) */
             border-radius: 10px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
             z-index: 1;
-            max-width: 95%;
-            width: 550px;
-            box-sizing: border-box;
+            width: 95%; /* Ancho fluido del 95% de la pantalla */
+            max-width: 550px; /* Ancho máximo para pantallas grandes */
+            box-sizing: border-box; /* Asegura que padding y borde se incluyan en el ancho total */
             border: 1px solid rgba(255, 215, 0, 0.4); /* Borde sutil dorado */
         }
 
@@ -75,7 +75,6 @@
         }
          p:nth-of-type(1) { animation-delay: 1.2s; } /* Parrafo de fecha y hora */
          p:nth-of-type(2) { animation-delay: 1.8s; } /* Parrafo de lugar */
-         /* El siguiente p es el del formulario, su animación está en #rsvpForm */
 
 
         @keyframes fade-in {
@@ -168,6 +167,8 @@
             transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            text-align: center; /* Asegura que el texto esté centrado en el botón */
+            white-space: nowrap; /* Evita saltos de línea en el texto del botón */
         }
 
         .button-style:hover {
@@ -181,13 +182,11 @@
         }
 
         /* Aplicamos el estilo general al botón del formulario y al nuevo botón de ubicación */
-        #rsvpForm button { /* Estilo para el botón dentro del formulario */
+        #rsvpForm button {
              margin-top: 0; /* Resetear margen si tenía alguno por defecto */
-             /* Usamos la clase button-style directamente en el botón del formulario */
         }
 
         .location-button {
-             /* Usamos la clase button-style directamente en el enlace de ubicación */
              margin-top: 15px; /* Espacio encima del botón de ubicación */
         }
 
@@ -237,7 +236,7 @@
         }
 
         /* Posicionamiento aleatorio aproximado para los elementos flotantes (más dispersos) */
-        /* Añade más según necesites */
+        /* Aseguran que cubren toda la pantalla */
         .element1 { top: 100%; left: 10%; animation-delay: 0s;}
         .element2 { top: 100%; left: 90%; animation-delay: 1s;}
         .element3 { top: 100%; left: 25%; animation-delay: 2s;}
@@ -258,6 +257,67 @@
          .element18 { top: 100%; left: 30%; animation-delay: 0.9s;}
          .element19 { top: 100%; left: 7%; animation-delay: 2.1s;}
          .element20 { top: 100%; left: 93%; animation-delay: 1.1s;}
+
+        /* === MEDIA QUERY PARA MÓVILES (Optimización) === */
+        @media (max-width: 600px) {
+            .invitation-container {
+                padding: 30px 20px; /* Reducir padding horizontal en pantallas pequeñas */
+            }
+
+            h1 {
+                font-size: 2em; /* Reducir tamaño título */
+            }
+
+            h2 {
+                font-size: 1.6em; /* Reducir tamaño subtítulo */
+                 margin-bottom: 20px;
+            }
+
+            p {
+                 font-size: 1em; /* Reducir tamaño texto párrafo */
+                 margin-bottom: 15px;
+                 line-height: 1.6;
+            }
+
+             #rsvpForm label {
+                 font-size: 1em;
+                 margin-bottom: 5px;
+             }
+
+            #rsvpForm input[type="text"] {
+                 padding: 8px; /* Reducir padding input */
+                 font-size: 0.9em;
+                 margin-bottom: 15px;
+                 width: calc(100% - 20px); /* Ajustar ancho por padding */
+            }
+
+            .button-style {
+                padding: 12px 20px; /* Reducir padding botón */
+                font-size: 1.1em; /* Reducir tamaño texto botón */
+            }
+
+            #rsvpForm, .location-button {
+                 margin-top: 20px; /* Reducir margen superior para agrupar más */
+                 padding-top: 15px; /* Reducir padding superior después del borde */
+            }
+
+            .location-button {
+                 margin-top: 10px; /* Reducir margen entre el form y el botón de ubicación */
+            }
+
+             /* Ajustes sutiles a la animación flotante si fuera necesario en móviles */
+             @keyframes float {
+                 0% { transform: translateY(0); opacity: 0; }
+                 20% { opacity: 0.6; } /* Ligeramente menos opacos */
+                 80% { opacity: 0.6; }
+                 100% { transform: translateY(-150px); opacity: 0; } /* Menor desplazamiento vertical */
+             }
+             .floating-element { animation: float 9s infinite linear; /* Duración ajustada */ }
+             .floating-element:nth-child(odd) { animation-duration: 11s; }
+             .floating-element:nth-child(even) { animation-duration: 8s; }
+
+        }
+
     </style>
 </head>
 <body>
