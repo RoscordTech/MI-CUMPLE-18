@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación 18 Cumpleaños Lautaro</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif; /* Fuente con serifa para un toque clásico */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Fondo elegante oscuro */
+            background: linear-gradient(to bottom, #1a2b3c, #34495e);
+            color: #ecf0f1; /* Texto claro para fondo oscuro */
+            overflow: hidden;
+            position: relative;
+            line-height: 1.8; /* Espaciado de línea para mejor lectura */
+        }
+
+        .invitation-container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente oscuro un poco más sólido */
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+            z-index: 1;
+            max-width: 95%;
+            width: 550px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 215, 0, 0.4); /* Borde sutil dorado */
+        }
+
+        h1 {
+            color: #f1c40f; /* Dorado para el título principal */
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: text-pop-up 1.2s ease-out;
+            text-shadow: 0 0 12px rgba(241, 196, 15, 0.6); /* Sombra sutil para el texto dorado */
+        }
+
+        @keyframes text-pop-up {
+            0% {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            80% {
+                transform: scale(1.03);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        h2 {
+            color: #bdc3c7; /* Plateado/gris claro para el subtítulo */
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 30px;
+            animation: fade-in 2s ease-out forwards;
+            opacity: 0;
+            animation-delay: 0.6s;
+        }
+
+        p {
+            color: #ecf0f1; /* Texto blanco/gris claro */
+            font-size: 1.15em;
+            margin-bottom: 20px;
+            animation: fade-in 2s ease-out forwards;
+            opacity: 0;
+        }
+         p:nth-of-type(1) { animation-delay: 1.2s; } /* Parrafo de fecha y hora */
+         p:nth-of-type(2) { animation-delay: 1.8s; } /* Parrafo de lugar */
+         /* El siguiente p es el del formulario, su animación está en #rsvpForm */
+
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(10px); /* Ligero desplazamiento hacia arriba al aparecer */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .eighteen {
+            font-size: 1.6em;
+            color: #f1c40f; /* Dorado para el 18 */
+            font-weight: bold;
+            animation: heartbeat 1.8s infinite ease-in-out; /* Latido más suave */
+             display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05); /* Latido menos pronunciado */
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Estilo del formulario RSVP y botones */
+        #rsvpForm, .location-button {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(189, 195, 199, 0.2); /* Línea separadora sutil */
+             animation: fade-in 2s ease-out forwards; /* Animación de aparición */
+             opacity: 0;
+        }
+
+         #rsvpForm { animation-delay: 3s; }
+         .location-button { animation-delay: 3.5s; /* Aparece un poco después del formulario */ }
+
+
+        #rsvpForm label {
+            display: block; /* La etiqueta en su propia línea */
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #bdc3c7; /* Color plateado/gris para la etiqueta */
+        }
+
+        #rsvpForm input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #5d6d7e; /* Borde sutil */
+            border-radius: 4px;
+            background-color: #34495e; /* Fondo oscuro para el input */
+            color: #ecf0f1; /* Texto claro en el input */
+            margin-bottom: 20px;
+            width: calc(100% - 24px); /* Ancho del input menos padding y borde */
+            max-width: 300px; /* Ancho máximo */
+             box-sizing: border-box; /* Incluye padding y borde en el ancho */
+        }
+
+         #rsvpForm input[type="text"]::placeholder {
+             color: #bdc3c7; /* Color del placeholder */
+             opacity: 0.7;
+         }
+
+        #rsvpForm input[type="text"]:focus {
+            outline: none;
+            border-color: #f1c40f; /* Borde dorado al enfocar */
+            box-shadow: 0 0 8px rgba(241, 196, 15, 0.4); /* Sombra dorada al enfocar */
+        }
+
+
+        /* Estilo general para botones/enlaces con apariencia de botón */
+        .button-style {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #f1c40f; /* Fondo dorado */
+            color: #1a2b3c; /* Texto oscuro */
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .button-style:hover {
+            background-color: #ffdb58; /* Color dorado un poco más claro */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .button-style:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Aplicamos el estilo general al botón del formulario y al nuevo botón de ubicación */
+        #rsvpForm button { /* Estilo para el botón dentro del formulario */
+             margin-top: 0; /* Resetear margen si tenía alguno por defecto */
+             /* Usamos la clase button-style directamente en el botón del formulario */
+        }
+
+        .location-button {
+             /* Usamos la clase button-style directamente en el enlace de ubicación */
+             margin-top: 15px; /* Espacio encima del botón de ubicación */
+        }
+
+
+        /* Animation for subtle floating particles (Sparks/Dust) */
+        .floating-element {
+            position: absolute;
+            width: 4px; /* Muy pequeños */
+            height: 4px;
+            background-color: rgba(255, 215, 0, 0.8); /* Dorado semi-transparente */
+            border-radius: 50%; /* Puntos */
+            animation: float 10s infinite linear; /* Animación más lenta y constante */
+            opacity: 0; /* Empiezan invisibles */
+            z-index: 0;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); /* Brillo sutil */
+        }
+
+         .floating-element:nth-child(odd) {
+            background-color: rgba(189, 195, 199, 0.7); /* Plateado semi-transparente */
+             width: 6px;
+             height: 6px;
+             animation-duration: 12s;
+             animation-direction: reverse;
+             box-shadow: 0 0 5px rgba(189, 195, 199, 0.5);
+        }
+
+         .floating-element:nth-child(even) {
+             animation-duration: 8s;
+         }
+
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+             20% {
+                 opacity: 0.7; /* Aparecen gradualmente */
+             }
+            80% {
+                 opacity: 0.7;
+             }
+            100% {
+                transform: translateY(-200px); /* Se mueven hacia arriba sutilmente */
+                opacity: 0; /* Desaparecen gradualmente */
+            }
+        }
+
+        /* Posicionamiento aleatorio aproximado para los elementos flotantes (más dispersos) */
+        /* Añade más según necesites */
+        .element1 { top: 100%; left: 10%; animation-delay: 0s;}
+        .element2 { top: 100%; left: 90%; animation-delay: 1s;}
+        .element3 { top: 100%; left: 25%; animation-delay: 2s;}
+        .element4 { top: 100%; left: 70%; animation-delay: 0.5s;}
+        .element5 { top: 100%; left: 40%; animation-delay: 3s;}
+        .element6 { top: 100%; left: 80%; animation-delay: 1.5s;}
+        .element7 { top: 100%; left: 5%; animation-delay: 2.5s;}
+        .element8 { top: 100%; left: 50%; animation-delay: 4s;}
+        .element9 { top: 100%; left: 15%; animation-delay: 3.5s;}
+        .element10 { top: 100%; left: 85%; animation-delay: 0.8s;}
+        .element11 { top: 100%; left: 35%; animation-delay: 2.2s;}
+        .element12 { top: 100%; left: 65%; animation-delay: 1.8s;}
+        .element13 { top: 100%; left: 45%; animation-delay: 3.2s;}
+         .element14 { top: 100%; left: 55%; animation-delay: 0.3s;}
+         .element15 { top: 100%; left: 75%; animation-delay: 2.8s;}
+         .element16 { top: 100%; left: 20%; animation-delay: 1.3s;}
+         .element17 { top: 100%; left: 60%; animation-delay: 3.8s;}
+         .element18 { top: 100%; left: 30%; animation-delay: 0.9s;}
+         .element19 { top: 100%; left: 7%; animation-delay: 2.1s;}
+         .element20 { top: 100%; left: 93%; animation-delay: 1.1s;}
+    </style>
+</head>
+<body>
+
+    <div class="invitation-container">
+        <h1>¡Celebrando Mis <span class="eighteen">18</span> Años!</h1>
+        <h2>Lautaro</h2>
+
+        <p>Me gustaría que compartieras conmigo la celebración de mi 18º cumpleaños.</p>
+
+        <p>
+            <strong>Fecha:</strong> 3 de mayo del 2025<br>
+            <strong>Hora:</strong> 21:00 h
+        </p>
+
+        <p>
+            <strong>Lugar:</strong> El Mas de Gerembí, Tarragona<br>
+            <span style="font-size: 0.9em; color: #bdc3c7;">(Ver ubicación exacta en el mapa)</span>
+        </p>
+
+        <form id="rsvpForm">
+            <label for="guestName">Tu Nombre:</label>
+            <input type="text" id="guestName" name="guestName" placeholder="Escribe aquí tu nombre" required>
+
+            <button type="submit" class="button-style">
+                Confirmar Asistencia
+            </button>
+        </form>
+
+        <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1954613,1.29344,107m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
+           id="locationLink" class="button-style location-button" target="_blank">
+            Ver Ubicación en Maps
+        </a>
+
+    </div>
+
+    <div class="floating-element element1"></div>
+    <div class="floating-element element2"></div>
+    <div class="floating-element element3"></div>
+    <div class="floating-element element4"></div>
+    <div class="floating-element element5"></div>
+    <div class="floating-element element6"></div>
+    <div class="floating-element element7"></div>
+    <div class="floating-element element8"></div>
+    <div class="floating-element element9"></div>
+    <div class="floating-element element10"></div>
+     <div class="floating-element element11"></div>
+    <div class="floating-element element12"></div>
+    <div class="floating-element element13"></div>
+    <div class="floating-element element14"></div>
+    <div class="floating-element element15"></div>
+    <div class="floating-element element16"></div>
+    <div class="floating-element element17"></div>
+    <div class="floating-element element18"></div>
+    <div class="floating-element element19"></div>
+    <div class="floating-element element20"></div>
+
+    <script>
+        // Script para manejar el envío del formulario y abrir el cliente de correo
+
+        // Dirección de correo a la que llegarán las confirmaciones.
+        const hostEmail = 'roscordtgn@gmail.com';
+
+        const rsvpForm = document.getElementById('rsvpForm');
+
+        rsvpForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita el envío normal del formulario
+
+            const guestNameInput = document.getElementById('guestName');
+            const guestName = guestNameInput.value.trim();
+
+            if (guestName === '') {
+                alert('Por favor, introduce tu nombre para confirmar.');
+                return;
+            }
+
+            const encodedGuestName = encodeURIComponent(guestName);
+            const subject = encodeURIComponent('Confirmación de asistencia - 18 Cumpleaños de Lautaro');
+            // Cuerpo del mensaje, incluyendo el nombre introducido
+            const body = encodeURIComponent(`Hola Lautaro,\n\nConfirmo mi asistencia al 18º cumpleaños.\nMi nombre es: ${guestName}\n\nGracias.`);
+
+            const mailtoUrl = `mailto:${hostEmail}?subject=${subject}&body=${body}`;
+
+            // Abre el cliente de correo
+            window.location.href = mailtoUrl;
+
+            // Opcional: Mostrar un mensaje de agradecimiento (puede interferir con la apertura del mailto en algunos navegadores)
+            // alert('¡Gracias por confirmar! Se abrirá tu cliente de correo para enviar el email.');
+            // guestNameInput.value = '';
+        });
+
+        // No se necesita JavaScript adicional para el botón de ubicación si solo es un enlace <a>
+
+    </script>
+
+</body>
+</html>
