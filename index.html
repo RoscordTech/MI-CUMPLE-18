@@ -313,12 +313,12 @@
         }
 
         .spinner {
-            border: 4px solid rgba(0, 188, 212, 0.1);
-            border-top: 4px solid #00bcd4;
-            border-radius: 50%;
+            border: 4px solid rgba(0, 188, 212, 0.1); /* Borde transparente */
+            border-top: 4px solid #00bcd4; /* Parte sólida que gira */
+            border-radius: 50%; /* Forma circular */
             width: 30px;
             height: 30px;
-            animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite; /* Animación de giro */
             margin-top: 10px;
         }
 
@@ -638,14 +638,14 @@
              rsvpForm.style.transform = 'translateY(-20px)';
              rsvpForm.style.pointerEvents = 'none'; // Deshabilitar clics
 
-             // Ocultar botones (con transición)
+
              if (buttonsContainer) {
                  buttonsContainer.style.opacity = '0';
                  buttonsContainer.style.transform = 'translateY(-20px)';
                  buttonsContainer.style.pointerEvents = 'none';
              }
 
-             // Esperar a que termine la transición de ocultamiento antes de cambiar display
+             // Esperar un momento antes de cambiar display para que se vea la transición de opacidad/transform
               setTimeout(() => {
                  rsvpForm.style.display = 'none';
                   if (buttonsContainer) {
@@ -668,6 +668,10 @@
              const formData = new FormData(); // Usamos FormData
              formData.append('name', guestName); // name="name"
              formData.append('_subject', 'Confirmación de asistencia - 18 Cumpleaños de Lautaro'); // _subject
+
+             // Si tuvieras otros campos en el formulario con sus respectivos 'name', los añadirías aquí:
+             // const otroCampo = document.getElementById('id_del_otro_campo');
+             // if (otroCampo) { formData.append(otroCampo.name, otroCampo.value); }
 
 
              // Enviar datos usando Fetch (AJAX) a FormSubmit
