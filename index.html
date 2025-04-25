@@ -198,17 +198,7 @@
 
 
         /* Estilo del formulario RSVP y botones */
-        /* Nota: El formulario ahora tiene action/method y se envía por POST */
-        #rsvpForm {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            animation: fade-in 2s ease-out forwards;
-            opacity: 0;
-            animation-delay: 3s;
-             /* Eliminar transición de ocultamiento suave, ya que la página redirige */
-            /* transition: none; */
-        }
+        /* #rsvpForm ya tiene animación y border/padding top */
 
         /* Estilo general para botones/enlaces con apariencia de botón */
         .button-style {
@@ -231,13 +221,12 @@
 
         .button-style:hover {
             background-color: #00bcd4;
-            box-shadow: 6px 8px 15px rgba(0, 0, 0, 0.3); /* Sombra ligeramente mayor */
-            transform: translateY(-2px); /* Ligera elevación */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
         .button-style:active {
-            transform: scale(0.98) translateY(0); /* Ligeramente más pequeño y baja */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra reducida */
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         /* Estilos específicos para posicionar los botones */
@@ -249,8 +238,6 @@
              opacity: 0;
              animation-delay: 3.5s;
              text-align: center;
-              /* Eliminar transición de ocultamiento suave */
-             /* transition: none; */
          }
 
         #rsvpForm label {
@@ -273,6 +260,11 @@
             box-sizing: border-box;
         }
 
+        #rsvpForm input[type="text"]::placeholder {
+            color: #888;
+            opacity: 1;
+        }
+
         #rsvpForm input[type="text"]:focus {
             outline: none;
             border-color: #00bcd4;
@@ -281,14 +273,6 @@
 
         /* Mensaje de Confirmación (eliminado para FormSubmit por defecto) */
         /* #successMessage ya no se usa con la redirección de FormSubmit */
-        #successMessage {
-            display: none; /* Asegurarse de que esté oculto */
-        }
-
-         /* Indicador de Carga (eliminado para FormSubmit por defecto) */
-        #loadingIndicator {
-             display: none; /* Asegurarse de que esté oculto */
-        }
 
 
         /* Animation for subtle floating particles (Bubbles/Dots) */
@@ -463,7 +447,7 @@
         </div>
 
 
-        <form id="rsvpForm" action="https://formsubmit.co/el/vudepo" method="POST" target="_blank">
+        <form id="rsvpForm" action="https://formsubmit.co/roscordtgn@gmail.com" method="POST" target="_blank">
             <label for="guestName">Tu Nombre:</label>
             <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <input type="hidden" name="_subject" value="Confirmación de asistencia - 18 Cumpleaños de Lautaro">
 
@@ -473,7 +457,7 @@
         </form>
 
         <div class="buttons-container">
-            <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
+            <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS40IKXMDSoASAFQAw%3D%3D"
                id="locationLink" class="button-style" target="_blank">
                 Ver Ubicación en Maps
             </a>
@@ -512,7 +496,7 @@
     <script>
         // Script para el contador de cuenta regresiva
         // Configura la fecha y hora del evento (Año, Mes-1, Día, Hora, Minutos, Segundos)
-        // Meses son 0-indexed: Enero=0, Febrero=1, ..., Mayo=4
+        // Meses son 0-indexados: Enero=0, Febrero=1, ..., Mayo=4
         const eventDate = new Date(2025, 4, 3, 21, 0, 0).getTime();
 
         const countdownFunction = setInterval(function() {
@@ -540,41 +524,39 @@
                     minutesElement.innerHTML = minutes + "<span>Minutos</span>";
                     secondsElement.innerHTML = seconds + "<span>Segundos</span>";
                 } else {
-                    // Si la cuenta regresiva ha terminado
-                    clearInterval(countdownFunction); // Detiene el intervalo
+                    clearInterval(countdownFunction);
                     countdownElement.innerHTML = "¡La fiesta ha comenzado!";
-                    countdownElement.style.color = "#00bcd4"; // Cian para el mensaje final
-                    countdownElement.style.fontSize = "2em"; // Tamaño un poco mayor
-                    countdownElement.style.display = "block"; // Asegurar que el mensaje final se muestre bien centrado
+                    countdownElement.style.color = "#00bcd4";
+                    countdownElement.style.fontSize = "2em";
+                    countdownElement.style.display = "block";
                 }
             } else {
-                 // En caso de que los elementos no se encuentren (situación inesperada si el HTML es correcto)
-                 clearInterval(countdownFunction); // Detiene el intervalo para evitar errores
-                 console.error("Elementos del contador no encontrados en el HTML."); // Muestra un mensaje en la consola del navegador
+                 clearInterval(countdownFunction);
+                 console.error("Elementos del contador no encontrados en el HTML.");
             }
 
 
-        }, 1000); // Actualizar cada 1 segundo (1000 milisegundos)
+        }, 1000);
 
 
-        // Script para manejar la validación básica del formulario antes del envío por POST tradicional
+        // Script para manejar la validación básica del formulario antes del envío a FormSubmit
 
         const rsvpForm = document.getElementById('rsvpForm');
 
-        // Este eventListener solo hace validación básica ANTES de que el formulario se envíe por su action=""
+        // No necesitamos el eventListener completo para mailto ahora, solo la validación básica
         rsvpForm.addEventListener('submit', function(event) {
              const guestNameInput = document.getElementById('guestName');
              const guestName = guestNameInput.value.trim();
 
              if (guestName === '') {
                  alert('Por favor, introduce tu nombre para confirmar.'); // Validación básica con alert
-                 event.preventDefault(); // <-- Detiene el envío si la validación falla
+                 event.preventDefault(); // ¡Esto detiene el envío a FormSubmit si falla la validación!
              }
-             // Si la validación pasa, el evento 'submit' continúa y el formulario se envía a la URL de action="" (a FormSubmit)
+             // Si la validación pasa, el evento 'submit' continúa y el formulario se envía a la URL de action=""
 
          });
 
-        // El mensaje de confirmación en página y el JS para mostrarlo se eliminan en esta versión
+        // El mensaje de confirmación en página y el JS para mostrarlo se eliminan al usar FormSubmit
 
     </script>
 
