@@ -495,14 +495,22 @@
         </div>
 
 
-        <form id="rsvpForm" action="https://formsubmit.co/roscordtgn@gmail.com" method="POST" target="_blank">
+        <form id="rsvpForm">
             <label for="guestName">Tu Nombre:</label>
-            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <input type="hidden" name="_subject" value="Confirmación de asistencia - 18 Cumpleaños de Lautaro">
-
-            <button type="submit" class="button-style">
+            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <button type="submit" class="button-style">
                 Confirmar Asistencia
             </button>
         </form>
+
+         <div id="successMessage">
+            ¡Gracias por confirmar! Tu asistencia ha sido registrada.
+        </div>
+
+        <div id="loadingIndicator">
+            Enviando...
+            <div class="spinner"></div>
+        </div>
+
 
         <div class="buttons-container">
             <a href="https://www.google.es/maps/place/43764+El+Mas+de+Geremb%C3%AD,+Tarragona/@41.1950102,1.2945558,54m/data=!3m1!1e3!4m6!3m5!1s0x12a3f956bfb77f91:0xa4edd32e5f6120e6!8m2!3d41.195111!4d1.2957249!16s%2Fg%2F11xbwpfj9?entry=ttu&g_ep=EgoyMDI1MDQyMS4wIKXMDSoASAFQAw%3D%3D"
@@ -589,24 +597,131 @@
         }, 1000); // Actualizar cada 1 segundo (1000 milisegundos)
 
 
-        // Script para manejar la validación básica del formulario antes del envío por POST tradicional
+        // Script para manejar el envío del formulario a FormSubmit usando Fetch (AJAX)
 
         const rsvpForm = document.getElementById('rsvpForm');
+        const guestNameInput = document.getElementById('guestName'); // Obtener el input de nombre
+        const successMessage = document.getElementById('successMessage'); // Obtener el mensaje de éxito
+        const loadingIndicator = document.getElementById('loadingIndicator'); // Obtener el indicador de carga
+        const buttonsContainer = document.querySelector('.buttons-container'); // Obtener el contenedor de botones
 
-        // Este eventListener solo hace validación básica ANTES de que el formulario se envíe por su action=""
+
+        // ** IMPORTANTE: URL de FormSubmit con email directo + ?ajax=true **
+        // Esta es la URL que debes haber verificado en FormSubmit (el PRIMER envío a roscordtgn@gmail.com te enviará el email de verificación).
+        const formSubmitUrl = 'https://formsubmit.co/roscordtgn@gmail.com?ajax=true'; // Usando el email directo + ?ajax=true
+
+
         rsvpForm.addEventListener('submit', function(event) {
-             const guestNameInput = document.getElementById("guestName"); // Corregido: usar getElementById
+             event.preventDefault(); // <--- ¡CRUCIAL! Esto detiene el envío normal del formulario y la redirección.
+
              const guestName = guestNameInput.value.trim();
 
              if (guestName === '') {
                  alert('Por favor, introduce tu nombre para confirmar.'); // Validación básica con alert
-                 event.preventDefault(); // <-- Detiene el envío si la validación falla
+                 return; // Detiene la función si el nombre está vacío
              }
-             // Si la validación pasa, el evento 'submit' continúa y el formulario se envía a la URL de action="" (a FormSubmit)
+
+             // --- Mostrar Indicador de Carga y Ocultar Formulario/Botones ---
+             // Ocultar formulario (con transición)
+             rsvpForm.style.opacity = '0';
+             rsvpForm.style.transform = 'translateY(-20px)';
+             rsvpForm.style.pointerEvents = 'none'; // Deshabilitar clics
+
+
+             if (buttonsContainer) {
+                 buttonsContainer.style.opacity = '0';
+                 buttonsContainer.style.transform = 'translateY(-20px)';
+                 buttonsContainer.style.pointerEvents = 'none';
+             }
+
+             // Esperar un momento antes de cambiar display para que se vea la transición de opacidad/transform
+              setTimeout(() => {
+                 rsvpForm.style.display = 'none';
+                  if (buttonsContainer) {
+                      buttonsContainer.style.display = 'none';
+                  }
+
+                 // Mostrar el indicador de carga
+                 if (loadingIndicator) {
+                      loadingIndicator.style.display = 'flex'; /* Usar flex para centrar el contenido del loader */
+                      // Iniciar animación de aparición para el loader
+                      loadingIndicator.style.opacity = '0';
+                      loadingIndicator.style.transform = 'translateY(20px)';
+                      loadingIndicator.style.animation = 'fade-in 0.5s ease-out forwards';
+                 }
+
+             }, 500); // Tiempo igual a la duración de la transición de ocultamiento
+
+
+             // Recolectar datos del formulario
+             const formData = new FormData(); // Usamos FormData
+             formData.append('name', guestName); // name="name"
+             formData.append('_subject', 'Confirmación de asistencia - 18 Cumpleaños de Lautaro'); // _subject
+
+             // Si tuvieras otros campos en el formulario con sus respectivos 'name', los añadirías aquí:
+             // const otroCampo = document.getElementById('id_del_otro_campo');
+             // if (otroCampo) { formData.append(otroCampo.name, otroCampo.value); }
+
+
+             // Enviar datos usando Fetch (AJAX) a FormSubmit
+             fetch(formSubmitUrl, {
+                 method: 'POST', // Método POST
+                 body: formData, // Los datos a enviar (FormData)
+                 headers: {
+                     'Accept': 'application/json' // Necesario para modo AJAX con Fetch en FormSubmit
+                 }
+             })
+             .then(response => {
+                 // Ocultar el indicador de carga independientemente del resultado
+                 if (loadingIndicator) {
+                      loadingIndicator.style.animation = 'none'; // Detener animación de aparición si estaba
+                      loadingIndicator.style.display = 'none';
+                 }
+
+                 if (response.ok) { // Si la respuesta de FormSubmit es exitosa (status 2xx)
+                     console.log('Confirmación enviada con éxito a FormSubmit');
+                     // Mostrar el mensaje de éxito en la página
+                     if (successMessage) {
+                         successMessage.style.display = 'block';
+                         successMessage.style.opacity = '0';
+                         successMessage.style.transform = 'translateY(20px)';
+                         successMessage.style.animation = 'fade-in 1.5s ease-out forwards'; // Aplicar animación
+                     }
+
+                 } else {
+                     // Si FormSubmit responde con un error (status 4xx o 5xx)
+                     console.error('Error al enviar la confirmación a FormSubmit. Status:', response.status, response.statusText);
+                     // Intentar leer mensaje de error de FormSubmit si es JSON
+                     response.json().then(data => {
+                          console.error('Mensaje de error de FormSubmit:', data);
+                          alert('Hubo un error al enviar tu confirmación: ' + (data.message || response.statusText) + '. Por favor, inténtalo de nuevo más tarde o contacta directamente.');
+                     }).catch(() => {
+                         // Si no se puede leer JSON o no hay mensaje, usar el status text
+                         alert('Hubo un error desconocido al enviar tu confirmación (Status: ' + response.status + '). Por favor, inténtalo de nuevo más tarde o contacta directamente.');
+                     });
+
+                     // Opcional: Volver a mostrar el formulario y botones si hay un error no crítico
+                     // (Tendrías que invertir las líneas de ocultamiento/display/opacity/transform)
+                     // rsvpForm.style.display = 'block'; // etc.
+
+                 }
+             })
+             .catch(error => { // Capturar errores de red (ej: sin conexión, CORS bloqueado antes de respuesta OK)
+                 console.error('Error de red al enviar la confirmación:', error);
+                 // Ocultar el indicador de carga en caso de error de red
+                 if (loadingIndicator) {
+                     loadingIndicator.style.animation = 'none'; // Detener animación de aparición si estaba
+                     loadingIndicator.style.display = 'none';
+                 }
+                 alert('No se pudo conectar con el servidor para enviar la confirmación. Revisa tu conexión a internet.');
+
+                 // Opcional: Volver a mostrar formulario si hay error de red
+                 // rsvpForm.style.display = 'block'; // etc.
+             });
 
          });
 
-        // El mensaje de confirmación en página y el JS para mostrarlo se eliminan en esta versión
+        // Los botones de ubicación y calendario son enlaces estándar y no necesitan JS adicional
 
     </script>
 
