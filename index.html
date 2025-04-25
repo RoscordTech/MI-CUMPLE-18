@@ -497,7 +497,9 @@
 
         <form id="rsvpForm">
             <label for="guestName">Tu Nombre:</label>
-            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <button type="submit" class="button-style">
+            <input type="text" id="guestName" name="name" placeholder="Escribe aquí tu nombre" required> <input type="hidden" name="_captcha" value="false">
+
+            <button type="submit" class="button-style">
                 Confirmar Asistencia
             </button>
         </form>
@@ -657,6 +659,8 @@
              const formData = new FormData(); // Usamos FormData
              formData.append('name', guestName); // name="name"
              formData.append('_subject', 'Confirmación de asistencia - 18 Cumpleaños de Lautaro'); // _subject
+             formData.append('_captcha', 'false'); // <--- ¡Añadido el campo _captcha!
+
 
              // Si tuvieras otros campos en el formulario con sus respectivos 'name', los añadirías aquí:
              // const otroCampo = document.getElementById('id_del_otro_campo');
